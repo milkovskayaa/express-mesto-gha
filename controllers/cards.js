@@ -13,7 +13,7 @@ const createCard = (req, res) => {
 
   Card.create({ name, link })
   .then((card) => res.status(200).send(card))
-  .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+  .catch(() => res.status(400).send({ message: "Данные введены некорректно" }));
 }
 
 // удалить карточку
