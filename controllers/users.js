@@ -1,11 +1,13 @@
 const User = require("../models/user");
 
+// получить всех пользователей
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 };
 
+// найти пользователя по id
 const getUserById = (req, res) => {
   const { id } = req.params;
 
@@ -19,6 +21,7 @@ const getUserById = (req, res) => {
     .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 };
 
+// создать пользователя
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
