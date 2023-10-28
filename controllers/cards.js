@@ -3,7 +3,7 @@ const Card = require('../models/card');
 // получить все карточки
 const getCards = (req, res) => {
   Card.find({})
-  .then((cards) => res.send({ data: cards }))
+  .then((cards) => res.status(200).send(cards))
   .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }
 
@@ -12,7 +12,7 @@ const createCard = (req, res) => {
   const { name, link } = req.body;
 
   Card.create({ name, link })
-  .then((card) => res.send({ data: card }))
+  .then((card) => res.status(200).send(card))
   .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }
 
