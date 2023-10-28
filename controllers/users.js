@@ -37,8 +37,28 @@ const createUser = (req, res) => {
     );
 };
 
+// обновить профиль пользователя
+const updateProfile = (req, res) => {
+  const { name, about } = req.body;
+
+  User.findByIdAndUpdate(req.params.id, {'name': name, 'about': about}, {new: true, runValidators: true})
+  .then((user) => {
+    if (!user) {
+      return res.status(404).send({ message: "Пользователь не найден" });
+    }
+    return res.status(200).send(req.body);
+  })
+  .catch((err) => {
+    if (err.name === "CastError") {
+      return res.status(400).send({ message: "Некорректный ID" });
+    }
+    return res.status(500).send({ message: "Произошла ошибка" });
+  });
+}
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
+  updateProfile
 };
