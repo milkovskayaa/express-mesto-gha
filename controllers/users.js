@@ -27,7 +27,7 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => res.status(200).send(user))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch(() => res.status(400).send({ message: "Данные введены некорректно" }));
 };
 
 module.exports = {
