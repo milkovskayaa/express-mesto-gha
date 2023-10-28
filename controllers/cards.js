@@ -25,7 +25,7 @@ const deleteCard = (req, res) => {
     if (!card) {
       return res.status(404).send({ message: "Карточка не найдена" });
     }
-    return res.status(200).send(user);
+    return res.status(200).send(card);
   })
   .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
 }
