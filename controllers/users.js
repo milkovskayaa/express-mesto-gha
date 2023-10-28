@@ -18,7 +18,12 @@ const getUserById = (req, res) => {
       }
       return res.status(200).send(user);
     })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch((err) => {
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Некорректный ID" });
+      }
+      return res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
 
 // создать пользователя
@@ -27,11 +32,13 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => res.status(200).send(user))
-    .catch(() => res.status(400).send({ message: "Данные введены некорректно" }));
+    .catch(() =>
+      res.status(400).send({ message: "Данные введены некорректно" })
+    );
 };
 
 module.exports = {
   getUsers,
   getUserById,
-  createUser
+  createUser,
 };
