@@ -9,6 +9,10 @@ const {
   updateAvatar,
 } = require("../controllers/users");
 
+const urlPattern = new RegExp(
+  "^((http|https):\\/\\/)?(www\\.)?[a-zA-Z0-9-]+(\\.[a-zA-Z]{2,6})+[a-zA-Z0-9-._~:\\/?#\\[\\]@!$&'()*+,;=]*$"
+);
+
 userRouter.get("/", getUsers);
 userRouter.get("/:id", getUserById);
 
