@@ -56,6 +56,9 @@ const updateProfile = (req, res) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Некорректный ID" });
       }
+      if (err.name === "ValidationError") {
+        return res.status(400).send({ message: "Введены некорректные данные" });
+      }
       return res.status(500).send({ message: "Произошла ошибка" });
     });
 };
