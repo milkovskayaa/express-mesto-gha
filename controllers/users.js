@@ -54,9 +54,27 @@ const updateProfile = (req, res) => {
   });
 }
 
+// обновить аватар пользователя
+const updateAvatar = (req, res) => {
+  return User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
+  .then((user) => {
+    if (!user) {
+      return res.status(404).send({ message: "Пользователь не найден" });
+    }
+    return res.status(200).send(req.body);
+  })
+  .catch((err) => {
+    if (err.name === "CastError") {
+      return res.status(400).send({ message: "Некорректный ID" });
+    }
+    return res.status(500).send({ message: "Произошла ошибка" });
+  });
+}
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
-  updateProfile
+  updateProfile,
+  updateAvatar
 };
