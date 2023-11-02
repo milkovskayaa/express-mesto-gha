@@ -24,13 +24,13 @@ const createCard = (req, res) => {
 const deleteCard = (req, res) => {
   const { id } = req.params;
   Card.findByIdAndRemove(id)
-    .then((card) => {
-      if (!card) {
+    .then((card) => res.status(200).send(card))
+    .catch((err) => {
+      if (err.name === "CastError") {
         return res.status(404).send({ message: "Карточка не найдена" });
       }
-      return res.status(200).send(card);
-    })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+      return res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
 
 // постановка лайка на карточку
@@ -41,13 +41,13 @@ const addLikeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
-    .then((card) => {
-      if (!card) {
+    .then((card) => res.status(200).send(card))
+    .catch((err) => {
+      if (err.name === "CastError") {
         return res.status(404).send({ message: "Карточка не найдена" });
       }
-      return res.status(200).send(card);
-    })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+      return res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
 
 // дизлайк карточки
@@ -58,13 +58,13 @@ const removeLikeCard = (req, res) => {
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true }
   )
-    .then((card) => {
-      if (!card) {
+    .then((card) => res.status(200).send(card))
+    .catch((err) => {
+      if (err.name === "CastError") {
         return res.status(404).send({ message: "Карточка не найдена" });
       }
-      return res.status(200).send(card);
-    })
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+      return res.status(500).send({ message: "Произошла ошибка" });
+    });
 };
 
 module.exports = {
