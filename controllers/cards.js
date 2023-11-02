@@ -9,11 +9,15 @@ const getCards = (req, res) => {
 
 // создать карточку
 const createCard = (req, res) => {
-  const { name, link } = req.body;
-
-  Card.create({ name, link })
+  const { name, link, owner = req.user._id } = req.body;
+  return Card.create({ name, link, owner })
   .then((card) => res.status(200).send(card))
-  .catch(() => res.status(400).send({ message: "Данные введены некорректно" }));
+  .catch((err) => {
+    if (err.name === "ValidationError") {
+      return res.status(400).send({ message: "Введены некорректные данные" });
+    }
+    return res.status(500).send({ message: "Произошла ошибка" });
+  });
 }
 
 // удалить карточку
