@@ -27,7 +27,7 @@ const deleteCard = (req, res) => {
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: "Карточка не найдена" });
+        return res.status(400).send({ message: "Некорректный ID" });
       }
       return res.status(500).send({ message: "Произошла ошибка" });
     });
@@ -44,7 +44,7 @@ const addLikeCard = (req, res) => {
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: "Карточка не найдена" });
+        return res.status(400).send({ message: "Некорректный ID" });
       }
       return res.status(500).send({ message: "Произошла ошибка" });
     });
@@ -61,7 +61,7 @@ const removeLikeCard = (req, res) => {
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: "Карточка не найдена" });
+        return res.status(400).send({ message: "Некорректный ID" });
       }
       return res.status(500).send({ message: "Произошла ошибка" });
     });
