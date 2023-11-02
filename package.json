@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint ."
   },
-  "author": "",
+  "author": "tatyana malceva",
   "license": "ISC",
   "dependencies": {
     "celebrate": "^15.0.1",
