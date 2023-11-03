@@ -24,7 +24,12 @@ const createCard = (req, res) => {
 const deleteCard = (req, res) => {
   const { id } = req.params;
   Card.findByIdAndRemove(id)
-    .then((card) => res.status(200).send(card))
+    .then((card) => {
+      if (!card) {
+        return res.status(404).send({ message: "Карточка не найдена" });
+      }
+      return res.status(200).send(card);
+    })
     .catch((err) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Некорректный ID" });
@@ -41,7 +46,12 @@ const addLikeCard = (req, res) => {
     { $addToSet: { likes: req.user._id } },
     { new: true }
   )
-    .then((card) => res.status(200).send(card))
+    .then((card) => {
+      if (!card) {
+        return res.status(404).send({ message: "Карточка не найдена" });
+      }
+      return res.status(200).send(card);
+    })
     .catch((err) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Некорректный ID" });
@@ -58,7 +68,12 @@ const removeLikeCard = (req, res) => {
     { $pull: { likes: req.user._id } }, // убрать _id из массива
     { new: true }
   )
-    .then((card) => res.status(200).send(card))
+    .then((card) => {
+      if (!card) {
+        return res.status(404).send({ message: "Карточка не найдена" });
+      }
+      return res.status(200).send(card);
+    })
     .catch((err) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Некорректный ID" });
