@@ -29,7 +29,7 @@ app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
 app.use((req, res, next) => {
-  next(res.status(NOT_FOUND).send('Такой страницы не существует'));
+  next(res.status(NOT_FOUND).send({ message: "Такой страницы не существует" }));
 })
 
 app.listen(PORT, () => {
