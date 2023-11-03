@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
+const { NOT_FOUND } = require('./errors/errors');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,6 +27,10 @@ app.use((req, res, next) => {
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+
+app.use((req, res, next) => {
+  next(res.status(NOT_FOUND).send('Такой страницы не существует'));
+})
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
