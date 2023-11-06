@@ -17,7 +17,6 @@ const getUsers = (req, res) => {
 // найти пользователя по id
 const getUserById = (req, res) => {
   const { id } = req.params;
-
   User.findById(id)
     .then((user) => {
       if (!user) {
@@ -40,7 +39,6 @@ const getUserById = (req, res) => {
 // создать пользователя
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
-
   User.create({ name, about, avatar })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
@@ -57,10 +55,15 @@ const createUser = (req, res) => {
 
 // обновить профиль пользователя
 const updateProfile = (req, res) => {
-  return User.findByIdAndUpdate(req.user._id, req.body, {
-    new: true,
-    runValidators: true,
-  })
+  const { name, about } = req.body;
+  return User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
     .then((user) => {
       if (!user) {
         return res
@@ -86,10 +89,15 @@ const updateProfile = (req, res) => {
 
 // обновить аватар пользователя
 const updateAvatar = (req, res) => {
-  return User.findByIdAndUpdate(req.user._id, req.body, {
-    new: true,
-    runValidators: true,
-  })
+  const { avatar } = req.body;
+  return User.findByIdAndUpdate(
+    req.user._id,
+    { avatar },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
     .then((user) => {
       if (!user) {
         return res
