@@ -12,13 +12,13 @@
   "author": "tatyana malceva",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^8.52.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.28.1",
     "express": "^4.18.2",
     "mongoose": "^7.6.3"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "eslint": "^8.52.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.28.1"
   }
 }
