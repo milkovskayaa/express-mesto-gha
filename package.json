@@ -12,6 +12,7 @@
   "author": "tatyana malceva",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "mongoose": "^7.6.3",
     "validator": "^13.11.0"
