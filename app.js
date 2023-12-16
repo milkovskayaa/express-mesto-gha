@@ -25,9 +25,11 @@ app.use((req, res, next) => {
 
   next();
 });
-app.use(auth);
+
 app.post('/signin', login);
 app.post('/signup', createUser);
+
+app.use(auth);
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
