@@ -25,6 +25,7 @@ app.use((req, res, next) => {
 
   next();
 });
+app.use(auth);
 app.post('/signin', login);
 app.post('/signup', createUser);
 
@@ -34,7 +35,7 @@ app.use('/cards', cardRouter);
 app.use((req, res, next) => {
   next(res.status(NOT_FOUND).send({ message: 'Такой страницы не существует' }));
 });
-app.use(auth);
+
 app.listen(PORT, () => {
 
 });
