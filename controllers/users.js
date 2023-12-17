@@ -144,6 +144,20 @@ const login = (req, res) => {
     .catch(() => res.status(UNAUTHORIZED).send({ message: 'Неправильные почта или пароль' }));
 };
 
+const getUserInfo = (req, res) => {
+  const userId = req.user._id;
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return res
+          .status(NOT_FOUND)
+          .send({ message: 'Пользователь не найден' });
+      }
+      return res.status(200).send(user);
+    })
+    .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
+};
+
 module.exports = {
   getUsers,
   getUserById,
@@ -151,4 +165,5 @@ module.exports = {
   updateProfile,
   updateAvatar,
   login,
+  getUserInfo,
 };
