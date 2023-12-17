@@ -6,6 +6,7 @@ const {
   BAD_REQUEST,
   INTERNAL_SERVER_ERROR,
   UNAUTHORIZED,
+  CONFLICT,
 } = require('../errors/errors');
 
 // получить всех пользователей
@@ -51,6 +52,11 @@ const createUser = (req, res) => {
     }))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
+      if (err.code === 11000) {
+        return res
+          .status(CONFLICT)
+          .send({ message: 'Пользователь с таким email уже существует' });
+      }
       if (err.name === 'ValidationError') {
         return res
           .status(BAD_REQUEST)
