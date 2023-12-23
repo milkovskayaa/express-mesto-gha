@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
-const { NOT_FOUND } = require('./errors/errors');
+const NotFoundError = require('./errors/not-found-err');
 const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 
@@ -27,7 +27,20 @@ app.use('/users', userRouter);
 app.use('/cards', cardRouter);
 
 app.use((req, res, next) => {
-  next(res.status(NOT_FOUND).send({ message: 'Такой страницы не существует' }));
+  next(new NotFoundError('Такой страницы не существует'));
+});
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+
+  res
+    .status(statusCode)
+    .send({
+      message: statusCode === 500
+        ? 'На сервере произошла ошибка'
+        : message,
+    });
 });
 
 app.listen(PORT, () => {
