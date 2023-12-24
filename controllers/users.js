@@ -111,13 +111,13 @@ const updateAvatar = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findOne({ email }).select('+password')
+  User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        next(new UnauthorizedError('Неправильные почта или пароль'));
-        return;
+        next(new UnauthorizedError('Пользователь не найден'));
+        // return;
       }
-      bcrypt.compare(password, user.password);
+      return bcrypt.compare(password, user.password);
     })
     .then((matched) => {
       if (!matched) {
