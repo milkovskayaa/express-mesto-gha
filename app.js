@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { celebrate, Joi } = require('celebrate');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const NotFoundError = require('./errors/not-found-err');
@@ -19,7 +20,15 @@ const app = express();
 app.use(express.json());
 
 app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+    avatar: Joi.string.uri(),
+    email: Joi.string.email().required(),
+    password: Joi.string().required(),
+  }),
+}), createUser);
 
 app.use(auth);
 

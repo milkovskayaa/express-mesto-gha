@@ -111,7 +111,7 @@ const updateAvatar = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  User.findOne({ email }).select('+password')
+  return User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
         next(new UnauthorizedError('Неправильные почта или пароль'));
