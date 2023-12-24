@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { celebrate, Joi } = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const NotFoundError = require('./errors/not-found-err');
@@ -34,6 +34,8 @@ app.use(auth);
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+
+app.use(errors());
 
 app.use((req, res, next) => {
   next(new NotFoundError('Такой страницы не существует'));
