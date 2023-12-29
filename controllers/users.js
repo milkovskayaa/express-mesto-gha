@@ -117,14 +117,16 @@ const login = (req, res, next) => {
         next(new UnauthorizedError('Пользователь не найден'));
         // return;
       }
-      return bcrypt.compare(password, user.password);
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            next(new UnauthorizedError('Неправильные почта или пароль'));
+          }
+          return user;
+        });
     })
-    .then((matched) => {
-      if (!matched) {
-        next(new UnauthorizedError('Неправильные почта или пароль'));
-        return;
-      }
-      const token = jwt.sign({ _id: User._id }, 'some-secret-key', { expiresIn: '7d' });
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
       res.send({ token });
     })
     .catch((err) => next(err));
@@ -132,7 +134,7 @@ const login = (req, res, next) => {
 
 const getUserInfo = (req, res, next) => {
   const userId = req.user._id;
-  User.findById(userId)
+  return User.findById(userId)
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
