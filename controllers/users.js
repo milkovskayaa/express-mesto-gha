@@ -124,9 +124,7 @@ const login = (req, res, next) => {
         .then((matched) => {
           if (!matched) {
             next(new UnauthorizedError('Неправильные почта или пароль'));
-            return;
           }
-          // eslint-disable-next-line consistent-return
           return user;
         });
     })
