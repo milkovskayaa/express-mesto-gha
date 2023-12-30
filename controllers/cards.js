@@ -35,12 +35,12 @@ const deleteCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Вы не можете удалять чужую карточку');
       }
-      return card;
+      return Card.findByIdAndDelete(id);
     })
-    .then((card) => {
-      Card.findByIdAndRemove(id);
-      return res.status(200).send(card);
-    })
+    // .then((card) => {
+    //   Card.findByIdAndDelete(id);
+    //   return res.status(200).send(card);
+    // })
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Некорректный ID'));
