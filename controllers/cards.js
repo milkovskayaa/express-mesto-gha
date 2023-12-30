@@ -30,12 +30,15 @@ const deleteCard = (req, res, next) => {
   Card.findById(id)
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Карточка не найдена');
+        next(NotFoundError('Карточка не найдена'));
+        return;
       }
       if (card.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Вы не можете удалять чужую карточку');
+        next(ForbiddenError('Вы не можете удалять чужую карточку'));
+        return;
       }
       Card.findByIdAndRemove(id);
+      // eslint-disable-next-line consistent-return
       return res.status(200).send(card);
     })
     .catch((err) => {
