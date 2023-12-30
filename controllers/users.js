@@ -118,13 +118,15 @@ const login = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new UnauthorizedError('Пользователь не найден'));
-        // return;
+        return;
       }
-      return bcrypt.compare(password, user.password)
+      bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
             next(new UnauthorizedError('Неправильные почта или пароль'));
+            return;
           }
+          // eslint-disable-next-line consistent-return
           return user;
         });
     })
