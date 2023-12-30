@@ -120,7 +120,8 @@ const login = (req, res, next) => {
         next(new UnauthorizedError('Пользователь не найден'));
         return;
       }
-      bcrypt.compare(password, user.password)
+      // eslint-disable-next-line consistent-return
+      return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
             next(new UnauthorizedError('Неправильные почта или пароль'));
