@@ -27,13 +27,15 @@ const createCard = (req, res, next) => {
 // удалить карточку
 const deleteCard = (req, res, next) => {
   const { id } = req.params;
-  return Card.findById(id)
+  Card.findById(id)
     .then((card) => {
       if (!card) {
-        throw new NotFoundError('Карточка не найдена');
+        next(NotFoundError('Карточка не найдена'));
       }
+    })
+    .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Вы не можете удалять чужую карточку');
+        next(ForbiddenError('Вы не можете удалять чужую карточку'));
       }
     })
     .then((card) => {
