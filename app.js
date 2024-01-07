@@ -6,6 +6,7 @@ const cardRouter = require('./routes/cards');
 const NotFoundError = require('./errors/not-found-err');
 const { login, createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000 } = process.env;
 
@@ -18,6 +19,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
 
 const app = express();
 app.use(express.json());
+app.use(requestLogger);
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -40,6 +42,8 @@ app.use(auth);
 
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+
+app.use(errorLogger);
 
 app.use(errors());
 
